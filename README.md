@@ -1,11 +1,11 @@
 Large scale distributed systems - lab 3
 u186412 - u186415 - u186615
 
-#EX. 3:
+  ##EX. 3:
 
-#EX.4:
+  ##EX.4:
 
-#EX.5:
+  ##EX.5:
 how to run:
 spark-submit --conf spark.driver.extraJavaOptions=-Dlog4j.configuration=file:log4j.properties --class edu.upf.MastodonWithState target/lab3-masto
 don-1.0-SNAPSHOT.jar [language]
@@ -37,5 +37,5 @@ Time: 1710519410000 ms
 ...
 
 
-#EX.6
+  ##EX.6:
 We weren't able to complete exercise 6 due to lack of time
