@@ -34,40 +34,42 @@ public class MastodonWindows {
                 JavaPairRDD<String, String> languageMap = LanguageMapUtils.buildLanguageMap(jsc.sparkContext().textFile(input));
                 
                 //Define a batch-based DStream of (language, count) pairs
-                JavaPairDStream<String, Integer> batchCounts = stream
+                JavaPairDStream<String, Integer> BatchCount = stream
                         .mapToPair(tweet -> new Tuple2<>(tweet.getLanguage(), 1)) //Map pairs: (language, 1)
                         .transformToPair(rdd -> rdd.join(languageMap)) //Join language map 
                         .mapToPair(pair -> new Tuple2<>(pair._2()._2(), pair._2()._1())) 
                         .reduceByKey((a,b) -> a + b); //Count for each language
                 
+                
                 //Swap the key-value pairs and sort them by key from batch counts
-                JavaPairDStream<Integer, String> batchCountsSwaped = batchCounts
+                JavaPairDStream<Integer, String> SortedBatchCount = BatchCount
                         .mapToPair(Tuple2::swap) 
                         .transformToPair(rdd -> rdd.sortByKey(false)); 
 
+                
                 //Define a window-based DStream of (language, count)
-                JavaPairDStream<String, Integer> windowCounts = stream
+                JavaPairDStream<String, Integer> WindowCount = stream
                         .mapToPair(tweet -> new Tuple2<>(tweet.getLanguage(), 1)) // Map each tweet to (language, 1) pair
+                        .transformToPair(rdd -> rdd.join(languageMap))
+                        .mapToPair(pair -> new Tuple2<>(pair._2()._2(), pair._2()._1()))
                         .reduceByKeyAndWindow((a, b) -> a + b, Durations.seconds(60)); // Reduce by key over a window of 60 seconds to get counts for each language
                 
-                // Sort within the window
-                JavaPairDStream<String, Integer> sortedWindowCounts = windowCounts
+                
+                // Sort within the window by their key
+                JavaPairDStream<Integer, String> SortedWindowCount = WindowCount
+                        .mapToPair(Tuple2::swap)        
                         .transformToPair(rdd -> rdd.sortByKey(false));
                 
                 
                 // Print the top 3 languages with highest counts for batch counts
-                batchCountsSwaped.print(3);
-                
+                SortedBatchCount.print(3);
                 // Print the top 3 languages with highest counts within each window
-                sortedWindowCounts.print(3);
+                SortedWindowCount.print(3);
 
                 // Start Spark Streaming application and wait for termination signal
                 sc.start(); 
-                try {
-                        sc.awaitTermination();
-                } catch(InterruptedException e){
-                        e.printStackTrace();
-                }
+                sc.awaitTermination();
+        
         }
 
 }
