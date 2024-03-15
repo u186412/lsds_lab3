@@ -11,6 +11,7 @@ public class LanguageMapUtils {
         // return null;// IMPLEMENT ME
         return lines
                 .map(l -> l.split("\t"))
-                .mapToPair(splits -> Tuple2.apply(splits[1], splits[2]));
+                .mapToPair(splits -> Tuple2.apply(splits[1], splits[2]))
+                .distinct();
     }
 }
