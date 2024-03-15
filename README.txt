@@ -2,15 +2,56 @@ Large scale distributed systems - lab 3
 u186412 - u186415 - u186615
 
   #EX. 3:
+how to run:
+spark-submit --conf spark.driver.extraJavaOptions=-Dlog4j.configuration=file:src/main/resources/log4j.properties --class edu.upf.MastodonStateless
+target/lab3-mastodon-1.0-SNAPSHOT.jar src/main/resources/map.tsv
+
+example output:
+-------------------------------------------
+Time: 1710533670000 ms
+-------------------------------------------
+(English,189)
+(Japanese,21)
+(German,8)
+(Portuguese,7)
+(Russian,3)
+(French,2)
+(Dutch; Flemish,2)
+(Swedish,2)
+(Turkish,1)
+(Czech,1)
+...
+
 
   #EX.4:
+how to run:
+spark-submit --conf spark.driver.extraJavaOptions=-Dlog4j.configuration=file:src/main/resources/log4j.properties --class edu.upf.MastodonWindows ta
+rget/lab3-mastodon-1.0-SNAPSHOT.jar src/main/resources/map.tsv
+
+example output:
+-------------------------------------------
+Time: 1710534100000 ms
+-------------------------------------------
+(185,English)
+(21,German)
+(9,Spanish; Castilian)
+...
+
+-------------------------------------------
+Time: 1710534100000 ms
+-------------------------------------------
+(185,English)
+(21,German)
+(9,Spanish; Castilian)
+...
+
 
   #EX.5:
 how to run:
 spark-submit --conf spark.driver.extraJavaOptions=-Dlog4j.configuration=file:log4j.properties --class edu.upf.MastodonWithState target/lab3-masto
 don-1.0-SNAPSHOT.jar [language]
 
-example output:
+example output: ('en' language)
 -------------------------------------------
 Time: 1710519410000 ms
 -------------------------------------------
@@ -38,4 +79,4 @@ Time: 1710519410000 ms
 
 
   #EX.6:
-We weren't able to complete exercise 6 due to lack of time
+We weren't able to get exercise 6 working before the deadline. :(
