@@ -13,6 +13,8 @@ import com.github.tukaaa.MastodonDStream;
 import com.github.tukaaa.config.AppConfig;
 import com.github.tukaaa.model.SimplifiedTweetWithHashtags;
 
+import edu.upf.util.LanguageMapUtils;
+
 public class MastodonStateless {
         public static void main(String[] args) {
                 String input = args[0];
